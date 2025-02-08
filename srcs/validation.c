@@ -119,6 +119,6 @@ char	*check_paths_access(char **paths, t_ast_node *node, t_mshell *obj)
 		obj->exit_code = 127;
 		print_exit("command not found\n", node->args[0 + obj->args_move], obj->exit_code);
 	}
-	check_is_dir(path, obj);
+	//check_is_dir(path, obj);
 	return (path);
 }

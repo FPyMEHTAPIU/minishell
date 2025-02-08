@@ -35,7 +35,7 @@ static void    cleanup_heredoc(t_heredoc *doc)
 
 static int    process_heredoc_line(t_heredoc *doc)
 {
-    doc->str = get_next_line(STDIN_FILENO);
+    doc->str = readline("> ");
     if (!doc->str || g_signal_received == SIGINT)
         return (0);
     doc->expanded = expand_env_vars(doc->str, doc->obj);
@@ -46,9 +46,11 @@ static int    process_heredoc_line(t_heredoc *doc)
 static void    write_heredoc_line(t_heredoc *doc)
 {
     if (doc->str[0] == '$')
-        ft_putstr_fd(doc->expanded, doc->obj->fd_in);
+        ft_fprintf(doc->obj->fd_in, "%s\n", doc->expanded);
+        //ft_putstr_fd(doc->expanded, doc->obj->fd_in);
     else
-        ft_putstr_fd(doc->str, doc->obj->fd_in);
+        ft_fprintf(doc->obj->fd_in, "%s\n", doc->str);
+        //ft_putstr_fd(doc->str, doc->obj->fd_in);
 }
 
 static int has_input_redirection(t_ast_node *cmd)

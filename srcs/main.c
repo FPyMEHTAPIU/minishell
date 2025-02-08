@@ -120,10 +120,20 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         g_signal_received = 0;
-        obj.cmd_line = readline(PROMPT);
+        if (isatty(fileno(stdin)))
+		    obj.cmd_line = readline(PROMPT);
+	    else
+	    {
+	    	char *line;
+	    	line = get_next_line(fileno(stdin));
+	    	obj.cmd_line = ft_strtrim(line, "\n");
+	    	free(line);
+	    }
+
+        // obj.cmd_line = readline(PROMPT);
         if (!obj.cmd_line)  /* Handling Ctrl+D (EOF) */
         {
-            write(STDOUT_FILENO, "exit\n", 5);
+            //write(STDOUT_FILENO, "exit\n", 5);
             break;
         }
 
@@ -144,7 +154,7 @@ int main(int argc, char **argv, char **envp)
         wait_for_children(&obj);
 
         /* Reset signals to ignore or catch again for new interactive input */
-        transition_signal_handlers(SIGNAL_STATE_INTERACTIVE);
+        //transition_signal_handlers(SIGNAL_STATE_INTERACTIVE);
 
         /* Clean up AST, pids, etc., then refresh PATH in case environment changed */
         clean_mshell(&obj);
