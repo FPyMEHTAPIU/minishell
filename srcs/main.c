@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msavelie <msavelie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:03:23 by msavelie          #+#    #+#             */
-/*   Updated: 2025/02/14 14:52:41 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:09:15 by msavelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void wait_for_children(t_mshell *obj)
 				else if (WTERMSIG(status) == SIGQUIT)
 				{
 					/* Child died from Ctrl+\ */
-					write(STDERR_FILENO, "Quit: (core dumped)\n", 21);
+					write(STDOUT_FILENO, "Quit: (core dumped)\n", 20);
 					obj->exit_code = 131; /* typical for SIGQUIT */
 				}
 				else

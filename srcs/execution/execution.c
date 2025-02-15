@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msavelie <msavelie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:04:25 by msavelie          #+#    #+#             */
-/*   Updated: 2025/02/14 15:14:05 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:23:12 by msavelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void execute_cmd(t_mshell *obj, t_ast_node *cmd)
 	}
 	else if (obj->pids[obj->cur_pid] == 0)
 	{
-		setup_exec_signals();
+		reset_signals();
 		restore_terminal_settings();
 		apply_redirections(obj, cmd);
 

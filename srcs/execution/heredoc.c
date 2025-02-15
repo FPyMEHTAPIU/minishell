@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkhakimu <rkhakimu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msavelie <msavelie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:04:41 by msavelie          #+#    #+#             */
-/*   Updated: 2025/02/14 16:58:01 by rkhakimu         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:01:53 by msavelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	handle_here_doc(t_mshell *obj, t_ast_node *node, int last_fd)
 		return (last_fd);
 	heredoc = init_heredoc(obj);
 	g_signal_received = 0;
-	transition_signal_handlers(SIGNAL_STATE_HEREDOC);
-	while (process_heredoc_line(obj->heredoc))
+	while (process_heredoc_line(&heredoc))
 	{
 		if (!ft_strcmp(node->args[0], heredoc.trimmed) || 
 			!ft_strcmp(node->args[0], heredoc.expanded))
@@ -88,14 +87,7 @@ int	handle_here_doc(t_mshell *obj, t_ast_node *node, int last_fd)
 	if (g_signal_received == SIGINT)
 	{
 		obj->heredoc_interrupted = 1;
-		free(obj->heredoc);
-		obj->heredoc = NULL;
 		return (ret_fd);
 	}
-	if (isatty(STDIN_FILENO))
-		restore_terminal_settings();
-  transition_signal_handlers(SIGNAL_STATE_INTERACTIVE);
-	free(obj->heredoc);
-    obj->heredoc = NULL;
 	return (ret_fd);
 }
